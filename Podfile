@@ -3,12 +3,21 @@
 
 target 'Messenger' do
   # Comment the next line if you don't want to use dynamic frameworks
-  use_frameworks!
+  use_frameworks! :linkage => :dynamic
 
   # Pods for Messenger
 
-	pod 'Firebase/Core'
-	pod 'Firebase/Auth'
-	pod 'Firebase/Database'
+	#FireBase
+	pod 'FirebaseCore'
+	pod 'FirebaseAuth'
+	pod 'FirebaseDatabase'
+	#pod 'FirebaseUI/Facebook'
+	#pod 'FirebaseUI/OAuth'
+	#pod 'FirebaseUI/Auth'
+	#pod 'FirebaseUI'
+
+	#Facebook
+	pod 'FacebookCore'
+	pod 'FacebookLogin'
 
 end
