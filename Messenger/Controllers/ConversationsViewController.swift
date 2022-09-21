@@ -18,8 +18,6 @@ class ConversationsViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         validateUser()
-        
-        
     }
     
     func validateUser(){

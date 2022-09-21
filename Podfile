@@ -20,4 +20,7 @@ target 'Messenger' do
 	pod 'FacebookCore'
 	pod 'FacebookLogin'
 
+	#Google
+	pod 'GoogleSignIn'
+
 end

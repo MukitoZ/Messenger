@@ -9,9 +9,12 @@ import UIKit
 import FirebaseAuth
 import FacebookLogin
 import FacebookCore
+import GoogleSignIn
 
 
 class LoginViewController: UIViewController {
+    
+    let signInConfig = GIDConfiguration(clientID: "191864337865-r1ljgk7m0kmh3lnqp3dcvb32pc81plu7.apps.googleusercontent.com")
     
     private let imageView : UIImageView = {
         let imageView = UIImageView()
@@ -73,6 +76,14 @@ class LoginViewController: UIViewController {
         button.permissions = ["public_profile", "email"]
         button.layer.cornerRadius = 12
         button.layer.masksToBounds = true
+        //        button.titleLabel?.font = .systemFont(ofSize: 20, weight: .bold)
+        return button
+    }()
+    
+    private let googleLoginButton : GIDSignInButton = {
+        let button = GIDSignInButton()
+        button.layer.cornerRadius = 12
+        button.layer.masksToBounds = true
         return button
     }()
     
@@ -85,6 +96,7 @@ class LoginViewController: UIViewController {
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Register", style: .done, target: self, action: #selector(didTapRegister))
         
         loginButton.addTarget(self, action: #selector(loginButtonTapped), for: .touchUpInside)
+        googleLoginButton.addTarget(self, action: #selector(googleLoginButtonTapped), for: .touchUpInside)
         
         emailField.delegate = self
         passwordField.delegate = self
@@ -99,6 +111,7 @@ class LoginViewController: UIViewController {
         
         fbLoginButton.center = view.center
         scrollView.addSubview(fbLoginButton)
+        scrollView.addSubview(googleLoginButton)
     }
     
     override func viewDidLayoutSubviews() {
@@ -110,8 +123,49 @@ class LoginViewController: UIViewController {
         emailField.frame = CGRect(x: 30, y: imageView.bottom + 10, width: scrollView.width - 60, height: 52)
         passwordField.frame = CGRect(x: 30, y: emailField.bottom + 10, width: scrollView.width - 60, height: 52)
         loginButton.frame = CGRect(x: 30, y: passwordField.bottom + 10, width: scrollView.width - 60, height: 52)
-        fbLoginButton.center = scrollView.center
-        fbLoginButton.frame.origin.y = loginButton.bottom + 20
+        googleLoginButton.frame = CGRect(x: 30, y: loginButton.bottom + 10, width: scrollView.width - 60, height: 52)
+        fbLoginButton.frame = CGRect(x: 30, y: googleLoginButton.bottom + 10, width: scrollView.width - 60, height: 52)
+    }
+    
+    @objc private func googleLoginButtonTapped(_ sender : Any){
+        GIDSignIn.sharedInstance.signIn(with: signInConfig, presenting: self){
+            user, error in
+            guard let user = user, error == nil else{
+                return
+            }
+            
+            guard let email = user.profile?.email,
+                  let firstName = user.profile?.givenName else{
+                print("failed to get email and name from google result")
+                return
+            }
+            
+            DatabaseManager.shared.userExists(with: email, completion: {
+                exist in
+                if !exist {
+                    DatabaseManager.shared.insertUser(with: ChatAppUser(firstName: firstName, lastName: user.profile?.familyName, emailAdress: email))
+                }
+            })
+            let accessToken = user.authentication.accessToken
+            guard let idToken = user.authentication.idToken else {
+                return
+            }
+            let credential = GoogleAuthProvider.credential(withIDToken: idToken, accessToken: accessToken)
+            FirebaseAuth.Auth.auth().signIn(with: credential, completion: {
+                [weak self] authResult, error in
+                guard let strongSelf = self else{
+                    return
+                }
+                guard authResult != nil, error == nil else{
+                    if let error = error {
+                        print("Google credential login failed - \(error)")
+                    }
+                    return
+                }
+                print("Login successful")
+                strongSelf.navigationController?.dismiss(animated: true)
+            })
+        }
     }
     
     @objc private func loginButtonTapped(){
@@ -186,7 +240,7 @@ extension LoginViewController : LoginButtonDelegate{
                 print("failed to make facebook graph request")
                 return
             }
-        
+            
             print(result)
             guard let userName = result["name"] as? String,
                   let email = result["email"] as? String else{
