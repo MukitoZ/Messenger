@@ -7,8 +7,8 @@
 
 import UIKit
 import FirebaseAuth
-//import FBSDKLoginKit
 import FacebookLogin
+import FacebookCore
 
 
 class LoginViewController: UIViewController {
@@ -176,19 +176,38 @@ extension LoginViewController : LoginButtonDelegate{
             print("user failed login with facebook")
             return
         }
-
-//
-//        let fbRequest = GraphRequest(graphPath: "me", parameters: ["fields":"email, name"], tokenString: token, version: nil, httpMethod: .get)
         
-//        fbRequest.start(withCompletionHandler: {
-//            connect, result, error in
-//            guard let result = result as? [String : Any], error == nil else{
-//                print("failed to make facebook graph request")
-//                return
-//            }
-//
-//            print(result)
+        
+        let fbRequest = GraphRequest(graphPath: "me", parameters: ["fields":"email, name"], tokenString: token, version: nil, httpMethod: .get)
+        
+        fbRequest.start(completionHandler: {
+            connect, result, error in
+            guard let result = result as? [String : Any], error == nil else{
+                print("failed to make facebook graph request")
+                return
+            }
+        
+            print(result)
+            guard let userName = result["name"] as? String,
+                  let email = result["email"] as? String else{
+                print("failed to get email and name from fb result")
+                return
+            }
             
+            let nameComponents = userName.components(separatedBy: " ")
+            guard nameComponents.count >= 2 else{
+                return
+            }
+            
+            let firstName = nameComponents[0]
+            let lastName = nameComponents[1]
+            
+            DatabaseManager.shared.userExists(with: email, completion: {
+                exist in
+                if !exist {
+                    DatabaseManager.shared.insertUser(with: ChatAppUser(firstName: firstName, lastName: lastName, emailAdress: email))
+                }
+            })
             let credential = FacebookAuthProvider.credential(withAccessToken: token)
             FirebaseAuth.Auth.auth().signIn(with: credential, completion: {
                 [weak self] authResult, error in
@@ -196,12 +215,14 @@ extension LoginViewController : LoginButtonDelegate{
                     return
                 }
                 guard authResult != nil, error == nil else{
-                    print("Facebook credential login failed")
+                    if let error = error {
+                        print("Facebook credential login failed - \(error)")
+                    }
                     return
                 }
                 print("Login successful")
                 strongSelf.navigationController?.dismiss(animated: true)
-//            })
+            })
         })
     }
 }
