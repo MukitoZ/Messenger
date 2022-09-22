@@ -10,11 +10,14 @@ import FirebaseAuth
 import FacebookLogin
 import FacebookCore
 import GoogleSignIn
+import JGProgressHUD
 
 
 class LoginViewController: UIViewController {
     
-    let signInConfig = GIDConfiguration(clientID: "191864337865-r1ljgk7m0kmh3lnqp3dcvb32pc81plu7.apps.googleusercontent.com")
+    private let signInConfig = GIDConfiguration(clientID: "191864337865-r1ljgk7m0kmh3lnqp3dcvb32pc81plu7.apps.googleusercontent.com")
+    
+    private let spinner = JGProgressHUD(style: .dark)
     
     private let imageView : UIImageView = {
         let imageView = UIImageView()
@@ -178,12 +181,20 @@ class LoginViewController: UIViewController {
             alertUserLoginError()
             return
         }
+        
+        spinner.show(in: view)
+        
         //Firebase Log In
         FirebaseAuth.Auth.auth().signIn(withEmail: email, password: password, completion: {
             [weak self] authDataResult, error in
             guard let strongSelf = self else{
                 return
             }
+            
+            DispatchQueue.main.async {
+                strongSelf.spinner.dismiss(animated: true)
+            }
+            
             guard let result = authDataResult, error == nil else{
                 print("failed to log in with email \(email)")
                 return

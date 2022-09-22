@@ -11,10 +11,6 @@ target 'Messenger' do
 	pod 'FirebaseCore'
 	pod 'FirebaseAuth'
 	pod 'FirebaseDatabase'
-	#pod 'FirebaseUI/Facebook'
-	#pod 'FirebaseUI/OAuth'
-	#pod 'FirebaseUI/Auth'
-	#pod 'FirebaseUI'
 
 	#Facebook
 	pod 'FacebookCore'
@@ -22,5 +18,10 @@ target 'Messenger' do
 
 	#Google
 	pod 'GoogleSignIn'
+
+	pod 'MessageKit'
+	pod 'JGProgressHUD'
+	pod 'RealmSwift'
+	pod 'SDWebImage'
 
 end

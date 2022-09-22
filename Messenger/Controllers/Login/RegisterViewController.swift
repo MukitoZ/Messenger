@@ -7,8 +7,12 @@
 
 import UIKit
 import FirebaseAuth
+import JGProgressHUD
 
 class RegisterViewController: UIViewController {
+    
+    private let spinner = JGProgressHUD(style: .dark)
+    
     private let imageView : UIImageView = {
         let imageView = UIImageView()
         imageView.image = UIImage(systemName: "person.circle")
@@ -163,12 +167,20 @@ class RegisterViewController: UIViewController {
                     alertUserRegisterError()
                     return
         }
+        
+        spinner.show(in: view)
+        
         //Firebase Register
         DatabaseManager.shared.userExists(with: email, completion: {
             [weak self] exist in
             guard let strongSelf = self else{
                 return
             }
+            
+            DispatchQueue.main.async {
+                strongSelf.spinner.dismiss(animated: true)
+            }
+            
             guard !exist else{
                 //User already exist
                 strongSelf.alertUserRegisterError(message: "User with that email address already exist")
