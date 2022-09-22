@@ -16,6 +16,7 @@
 		CA01BD0828D8454D00B87F6C /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA01BD0728D8454D00B87F6C /* Extensions.swift */; };
 		CA08FF6528D96442003026B6 /* DatabaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA08FF6428D96442003026B6 /* DatabaseManager.swift */; };
 		CA08FF6928D9799D003026B6 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA08FF6828D9799D003026B6 /* ProfileViewController.swift */; };
+		CA147BE928DC3B6A009F96E6 /* StorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA147BE828DC3B6A009F96E6 /* StorageManager.swift */; };
 		CA4D6E2228D4579B00004A3A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA4D6E2128D4579B00004A3A /* AppDelegate.swift */; };
 		CA4D6E2428D4579B00004A3A /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA4D6E2328D4579B00004A3A /* SceneDelegate.swift */; };
 		CA4D6E2628D4579B00004A3A /* ConversationsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA4D6E2528D4579B00004A3A /* ConversationsViewController.swift */; };
@@ -38,6 +39,7 @@
 		CA08FF6428D96442003026B6 /* DatabaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseManager.swift; sourceTree = "<group>"; };
 		CA08FF6828D9799D003026B6 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		CA08FF6A28D99333003026B6 /* Messenger.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Messenger.entitlements; sourceTree = "<group>"; };
+		CA147BE828DC3B6A009F96E6 /* StorageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageManager.swift; sourceTree = "<group>"; };
 		CA4D6E1E28D4579B00004A3A /* Messenger.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Messenger.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CA4D6E2128D4579B00004A3A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		CA4D6E2328D4579B00004A3A /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -149,6 +151,7 @@
 				CA4D6E2328D4579B00004A3A /* SceneDelegate.swift */,
 				CA01BD0728D8454D00B87F6C /* Extensions.swift */,
 				CA08FF6428D96442003026B6 /* DatabaseManager.swift */,
+				CA147BE828DC3B6A009F96E6 /* StorageManager.swift */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -299,6 +302,7 @@
 				CA01BD0528D8402800B87F6C /* NewConversationsViewController.swift in Sources */,
 				CA94B14E28DC037600584CE4 /* ChatViewController.swift in Sources */,
 				CA01BD0128D8400300B87F6C /* PhotoViewerViewController.swift in Sources */,
+				CA147BE928DC3B6A009F96E6 /* StorageManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

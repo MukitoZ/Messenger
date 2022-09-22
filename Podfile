@@ -11,6 +11,7 @@ target 'Messenger' do
 	pod 'FirebaseCore'
 	pod 'FirebaseAuth'
 	pod 'FirebaseDatabase'
+	pod 'FirebaseStorage'
 
 	#Facebook
 	pod 'FacebookCore'
