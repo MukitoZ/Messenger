@@ -38,6 +38,7 @@ class ConversationsViewController: UIViewController {
         view.addSubview(noConversationLabel)
         setupTableView()
         fetchConversations()
+        
     }
     
     override func viewDidLayoutSubviews() {
@@ -88,6 +89,7 @@ extension ConversationsViewController : UITableViewDelegate, UITableViewDataSour
         cell.accessoryType = .disclosureIndicator
         return cell
     }
+    
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)

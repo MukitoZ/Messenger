@@ -142,10 +142,14 @@ class LoginViewController: UIViewController {
                 print("failed to get email and name from google result")
                 return
             }
+            let lastName = user.profile?.familyName
+            
+            UserDefaults.standard.set(email, forKey: "email")
             
             DatabaseManager.shared.userExists(with: email, completion: {
                 exist in
-                let chatUser = ChatAppUser(firstName: firstName, lastName: user.profile?.familyName, emailAdress: email)
+                print(exist)
+                let chatUser = ChatAppUser(firstName: firstName, lastName: lastName, emailAddress: email)
                 if !exist {
                     DatabaseManager.shared.insertUser(with: chatUser, completion: {
                         success in
@@ -230,7 +234,11 @@ class LoginViewController: UIViewController {
                 print("failed to log in with email \(email)")
                 return
             }
+            
             let user = result.user
+            
+            UserDefaults.standard.set(email, forKey: "email")
+            
             print("user successfully logged in with user \(user)")
             strongSelf.navigationController?.dismiss(animated: true)
         })
@@ -293,9 +301,11 @@ extension LoginViewController : LoginButtonDelegate{
                 return
             }
             
+            UserDefaults.standard.set(email, forKey: "email")
+            
             DatabaseManager.shared.userExists(with: email, completion: {
                 exist in
-                let chatUser = ChatAppUser(firstName: firstName, lastName: lastName, emailAdress: email)
+                let chatUser = ChatAppUser(firstName: firstName, lastName: lastName, emailAddress: email)
                 if !exist {
                     DatabaseManager.shared.insertUser(with: chatUser, completion: {
                         success in
