@@ -142,15 +142,24 @@ class LoginViewController: UIViewController {
                 print("failed to get email and name from google result")
                 return
             }
+            
             let lastName = user.profile?.familyName
             
             UserDefaults.standard.set(email, forKey: "email")
+            if lastName == nil{
+                UserDefaults.standard.set("\(firstName)", forKey: "name")
+            } else{
+                guard let lastName = lastName else{
+                    return
+                }
+                UserDefaults.standard.set("\(firstName) \(lastName)", forKey: "name")
+            }
             
             DatabaseManager.shared.userExists(with: email, completion: {
                 exist in
-                print(exist)
-                let chatUser = ChatAppUser(firstName: firstName, lastName: lastName, emailAddress: email)
+                print("exist = \(exist)")
                 if !exist {
+                    let chatUser = ChatAppUser(firstName: firstName, lastName: lastName, emailAddress: email)
                     DatabaseManager.shared.insertUser(with: chatUser, completion: {
                         success in
                         if success{
@@ -237,7 +246,27 @@ class LoginViewController: UIViewController {
             
             let user = result.user
             
+            let safeEmail = DatabaseManager.safeEmail(emailAddress: email)
+            DatabaseManager.shared.getDataFor(path: safeEmail, completion: { result in
+                switch result{
+                case .success(let data):
+                    guard let userData = data as? [String : Any],
+                          let firstName = userData["first_name"] as? String,
+                          let lastName = userData["last_name"] as? String else{
+                        return
+                    }
+                    if lastName.isEmpty{
+                        UserDefaults.standard.set("\(firstName)", forKey: "name")
+                    } else{
+                        UserDefaults.standard.set("\(firstName) \(lastName)", forKey: "name")
+                    }
+                case.failure(let error):
+                    print("failed to read data from database with error \(error)")
+                }
+            })
+            
             UserDefaults.standard.set(email, forKey: "email")
+            
             
             print("user successfully logged in with user \(user)")
             strongSelf.navigationController?.dismiss(animated: true)
@@ -292,7 +321,6 @@ extension LoginViewController : LoginButtonDelegate{
             }
             
             guard let firstName = result["first_name"] as? String,
-                  let lastName = result["last_name"] as? String,
                   let email = result["email"] as? String,
                   let picture = result["picture"] as? [String : Any],
                   let data = picture["data"] as? [String : Any],
@@ -301,7 +329,17 @@ extension LoginViewController : LoginButtonDelegate{
                 return
             }
             
+            let lastName = result["last_name"] as? String
+            
             UserDefaults.standard.set(email, forKey: "email")
+            if lastName == nil{
+                UserDefaults.standard.set("\(firstName)", forKey: "name")
+            } else{
+                guard let lastName = lastName else{
+                    return
+                }
+                UserDefaults.standard.set("\(firstName) \(lastName)", forKey: "name")
+            }
             
             DatabaseManager.shared.userExists(with: email, completion: {
                 exist in

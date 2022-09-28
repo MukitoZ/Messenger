@@ -10,11 +10,13 @@ import JGProgressHUD
 
 class NewConversationViewController: UIViewController {
     
+    public var completion : ((SearchResult) -> (Void))?
+    
     private let spinner = JGProgressHUD(style: .dark)
     
     private var users = [[String : String]]()
     
-    private var results = [[String : String]]()
+    private var results = [SearchResult]()
     
     private var hasFetched = false
     
@@ -27,7 +29,7 @@ class NewConversationViewController: UIViewController {
     private let tableView: UITableView = {
         let table = UITableView()
         table.isHidden = true
-        table.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
+        table.register(NewConversationTableViewCell.self, forCellReuseIdentifier: NewConversationTableViewCell.identifier)
         return table
     }()
     
@@ -75,14 +77,27 @@ extension NewConversationViewController : UITableViewDelegate, UITableViewDataSo
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
-        cell.textLabel?.text = results[indexPath.row]["name"]
+        let model = results[indexPath.row]
+        let cell = tableView.dequeueReusableCell(withIdentifier: NewConversationTableViewCell.identifier, for: indexPath) as! NewConversationTableViewCell
+        cell.configure(with: model)
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         // start conversation
+        let targetUserData = results[indexPath.row]
+        
+        dismiss(animated: true, completion: { [weak self] in
+            guard let strongSelf = self else{
+                return
+            }
+            strongSelf.completion?(targetUserData)
+        })
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 90
     }
     
     
@@ -124,15 +139,30 @@ extension NewConversationViewController : UISearchBarDelegate{
     
     func filterUsers(with term: String){
         // update the UI: either show result or show no result label
-        guard hasFetched else{
+        guard let currentUserEmail = UserDefaults.standard.value(forKey: "email") as? String, hasFetched else{
             return
         }
+        
+        let safeEmail = DatabaseManager.safeEmail(emailAddress: currentUserEmail)
+        
         self.spinner.dismiss()
-        let results : [[String: String]] = self.users.filter({
+        let results : [SearchResult] = self.users.filter({
+            
+            guard let email = $0["email"], email != safeEmail else{
+                return false
+            }
+            
             guard let name = $0["name"]?.lowercased() else{
                 return false
             }
             return name.hasPrefix(term.lowercased())
+        }).compactMap({
+            guard let email = $0["email"],
+                  let name = $0["name"] else{
+                return nil
+            }
+            
+            return SearchResult(name: name, email: email)
         })
         
         self.results = results
