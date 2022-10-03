@@ -11,7 +11,7 @@ import InputBarAccessoryView
 import AVKit
 import CoreLocation
 
-class ChatViewController: MessagesViewController {
+final class ChatViewController: MessagesViewController {
     
     private var senderPhotoURL : URL?
     private var otherUserPhotoURL: URL?
@@ -219,7 +219,7 @@ extension ChatViewController : InputBarAccessoryViewDelegate{
         // Send message
         if isNewConversation{
             // Create new conversation in database
-            DatabaseManager.shared.createNewConversation(with: otherUserEmail, name: self.title ?? "User", firstMessage: message, completion: {[weak self] success in
+            DatabaseManager.shared.createNewConversation(with: otherUserEmail, name: title ?? "User", firstMessage: message, completion: {[weak self] success in
                 guard let strongSelf = self else{
                     return
                 }
@@ -235,7 +235,7 @@ extension ChatViewController : InputBarAccessoryViewDelegate{
             })
         } else{
             // Append to existing conversation data
-            guard let conversationId = conversationId, let name = self.title
+            guard let conversationId = conversationId, let name = title
             else{
                 return
             }

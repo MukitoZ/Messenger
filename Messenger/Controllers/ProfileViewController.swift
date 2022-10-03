@@ -13,7 +13,7 @@ import JGProgressHUD
 import SDWebImage
 
 
-class ProfileViewController: UIViewController {
+final class ProfileViewController: UIViewController {
     
     
     @IBOutlet var tableView : UITableView!
@@ -89,7 +89,7 @@ class ProfileViewController: UIViewController {
         
         let path = "images/\(fileName)"
         
-        let headerView = UIView(frame: CGRect(x: 0, y: 0, width: self.view.width, height: 300))
+        let headerView = UIView(frame: CGRect(x: 0, y: 0, width: view.width, height: 300))
         
         headerView.backgroundColor = .blue
         
@@ -139,15 +139,15 @@ class ProfileTableViewCell: UITableViewCell{
     static let identifier = "ProfileTableViewCell"
     
     public func setUp(with viewModel : ProfileViewModel){
-        self.textLabel?.text = viewModel.title
+        textLabel?.text = viewModel.title
         switch viewModel.viewModelType {
         case .info:
-            self.textLabel?.textAlignment = .left
-            self.textLabel?.textColor = .label
-            self.selectionStyle = .none
+            textLabel?.textAlignment = .left
+            textLabel?.textColor = .label
+            selectionStyle = .none
         case .logout:
-            self.textLabel?.textColor = .red
-            self.textLabel?.textAlignment = .center
+            textLabel?.textColor = .red
+            textLabel?.textAlignment = .center
         }
     }
 }
