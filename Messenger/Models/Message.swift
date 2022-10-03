@@ -7,6 +7,7 @@
 
 import Foundation
 import MessageKit
+import CoreLocation
 
 struct Message : MessageType{
     public var sender: MessageKit.SenderType
@@ -18,7 +19,6 @@ struct Message : MessageType{
 extension MessageKind{
     var messageKindString: String {
         switch self{
-            
         case .text(_):
             return "text"
         case .attributedText(_):
@@ -54,4 +54,9 @@ struct Sender : SenderType{
     public var photoURL: String
     public var senderId: String
     public var displayName: String
+}
+
+struct Location : LocationItem {
+    var location: CLLocation
+    var size: CGSize
 }

@@ -43,7 +43,7 @@ class LoginViewController: UIViewController {
         field.placeholder = "Email Address..."
         field.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 5, height: 0))
         field.leftViewMode = .always
-        field.backgroundColor = .white
+        field.backgroundColor = .secondarySystemBackground
         return field
     }()
     
@@ -58,7 +58,7 @@ class LoginViewController: UIViewController {
         field.placeholder = "Password..."
         field.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 5, height: 0))
         field.leftViewMode = .always
-        field.backgroundColor = .white
+        field.backgroundColor = .secondarySystemBackground
         field.isSecureTextEntry = true
         return field
     }()
@@ -90,11 +90,20 @@ class LoginViewController: UIViewController {
         return button
     }()
     
+    private var loginObserver : NSObjectProtocol?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        loginObserver = NotificationCenter.default.addObserver(forName: .didLoginNotification, object: nil, queue: .main, using: {[weak self] _ in
+            guard let strongSelf = self else{
+                return
+            }
+            strongSelf.navigationController?.dismiss(animated: true)
+        })
+        
         title = "Log In"
-        view.backgroundColor = .white
+        view.backgroundColor = .systemBackground
         
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Register", style: .done, target: self, action: #selector(didTapRegister))
         
@@ -247,7 +256,7 @@ class LoginViewController: UIViewController {
             let user = result.user
             
             let safeEmail = DatabaseManager.safeEmail(emailAddress: email)
-            DatabaseManager.shared.getDataFor(path: safeEmail, completion: { result in
+            DatabaseManager.shared.getDataFor(path: safeEmail, completion: { [weak self] result in
                 switch result{
                 case .success(let data):
                     guard let userData = data as? [String : Any],
@@ -256,16 +265,17 @@ class LoginViewController: UIViewController {
                         return
                     }
                     if lastName.isEmpty{
-                        UserDefaults.standard.set("\(firstName)", forKey: "name")
+                        UserDefaults.standard.setValue("\(firstName)", forKey: "name")
                     } else{
-                        UserDefaults.standard.set("\(firstName) \(lastName)", forKey: "name")
+                        UserDefaults.standard.setValue("\(firstName) \(lastName)", forKey: "name")
                     }
+                    NotificationCenter.default.post(name: .didLoginNotification, object: nil)
                 case.failure(let error):
                     print("failed to read data from database with error \(error)")
                 }
             })
             
-            UserDefaults.standard.set(email, forKey: "email")
+            UserDefaults.standard.setValue(email, forKey: "email")
             
             
             print("user successfully logged in with user \(user)")

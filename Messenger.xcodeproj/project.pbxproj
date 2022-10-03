@@ -17,6 +17,8 @@
 		CA08FF6528D96442003026B6 /* DatabaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA08FF6428D96442003026B6 /* DatabaseManager.swift */; };
 		CA08FF6928D9799D003026B6 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA08FF6828D9799D003026B6 /* ProfileViewController.swift */; };
 		CA147BE928DC3B6A009F96E6 /* StorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA147BE828DC3B6A009F96E6 /* StorageManager.swift */; };
+		CA3AA12028E6A15600EDD2D8 /* LocationPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA3AA11F28E6A15600EDD2D8 /* LocationPickerViewController.swift */; };
+		CA3AA12228E6CDFA00EDD2D8 /* ProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA3AA12128E6CDFA00EDD2D8 /* ProfileViewModel.swift */; };
 		CA4D6E2228D4579B00004A3A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA4D6E2128D4579B00004A3A /* AppDelegate.swift */; };
 		CA4D6E2428D4579B00004A3A /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA4D6E2328D4579B00004A3A /* SceneDelegate.swift */; };
 		CA4D6E2628D4579B00004A3A /* ConversationsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA4D6E2528D4579B00004A3A /* ConversationsViewController.swift */; };
@@ -46,6 +48,8 @@
 		CA08FF6828D9799D003026B6 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		CA08FF6A28D99333003026B6 /* Messenger.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Messenger.entitlements; sourceTree = "<group>"; };
 		CA147BE828DC3B6A009F96E6 /* StorageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageManager.swift; sourceTree = "<group>"; };
+		CA3AA11F28E6A15600EDD2D8 /* LocationPickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationPickerViewController.swift; sourceTree = "<group>"; };
+		CA3AA12128E6CDFA00EDD2D8 /* ProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewModel.swift; sourceTree = "<group>"; };
 		CA4D6E1E28D4579B00004A3A /* Messenger.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Messenger.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CA4D6E2128D4579B00004A3A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		CA4D6E2328D4579B00004A3A /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -136,6 +140,7 @@
 				CA01BD0428D8402800B87F6C /* NewConversationsViewController.swift */,
 				CA08FF6828D9799D003026B6 /* ProfileViewController.swift */,
 				CA94B14D28DC037600584CE4 /* ChatViewController.swift */,
+				CA3AA11F28E6A15600EDD2D8 /* LocationPickerViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -158,6 +163,7 @@
 				CA6D1BD928E189270080095F /* Conversation.swift */,
 				CADE4C6C28E4005600A8D4B7 /* Message.swift */,
 				CA6D1BDC28E189810080095F /* ChatAppUser.swift */,
+				CA3AA12128E6CDFA00EDD2D8 /* ProfileViewModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -204,6 +210,7 @@
 				CA4D6E1B28D4579B00004A3A /* Frameworks */,
 				CA4D6E1C28D4579B00004A3A /* Resources */,
 				84CECCF6BD71D1EAFA4085E0 /* [CP] Embed Pods Frameworks */,
+				CA3AA12328E6D63700EDD2D8 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -279,6 +286,23 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Messenger/Pods-Messenger-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
+		CA3AA12328E6D63700EDD2D8 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n\"${PODS_ROOT}/FirebaseCrashlytics/run\"\n";
+		};
 		D96F533F4F91E3F5CF812608 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -311,8 +335,10 @@
 				CA01BCFD28D83FE200B87F6C /* LoginViewController.swift in Sources */,
 				CA01BD0828D8454D00B87F6C /* Extensions.swift in Sources */,
 				CADE4C6D28E4005600A8D4B7 /* Message.swift in Sources */,
+				CA3AA12028E6A15600EDD2D8 /* LocationPickerViewController.swift in Sources */,
 				CA08FF6528D96442003026B6 /* DatabaseManager.swift in Sources */,
 				CA6D1BDA28E189270080095F /* Conversation.swift in Sources */,
+				CA3AA12228E6CDFA00EDD2D8 /* ProfileViewModel.swift in Sources */,
 				CA01BCFF28D83FF000B87F6C /* RegisterViewController.swift in Sources */,
 				CA4D6E2628D4579B00004A3A /* ConversationsViewController.swift in Sources */,
 				CADE4C6F28E42FDC00A8D4B7 /* NewConversationTableViewCell.swift in Sources */,
@@ -475,6 +501,7 @@
 				CODE_SIGN_ENTITLEMENTS = Messenger/Messenger.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = YNN6GD8QCU;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Messenger/Info.plist;

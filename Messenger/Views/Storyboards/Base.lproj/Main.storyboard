@@ -2,6 +2,7 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21225" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="82M-n0-r77">
     <device id="retina6_0" orientation="portrait" appearance="light"/>
     <dependencies>
+        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21207"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
@@ -46,7 +47,7 @@
         <scene sceneID="3LF-Zi-gGe">
             <objects>
                 <navigationController id="SCt-w2-Q8a" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Profile" id="zNM-uU-1Cs"/>
+                    <tabBarItem key="tabBarItem" title="Profile" image="person" catalog="system" id="zNM-uU-1Cs"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" largeTitles="YES" id="WAR-Rm-RtM">
                         <rect key="frame" x="0.0" y="47" width="390" height="96"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -94,7 +95,7 @@
         <scene sceneID="ICy-gg-g13">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="zzR-VX-9If" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Chats" id="nRv-Nc-6sz"/>
+                    <tabBarItem key="tabBarItem" title="Chats" image="message" catalog="system" id="nRv-Nc-6sz"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" largeTitles="YES" id="tR8-Ar-f3i">
                         <rect key="frame" x="0.0" y="47" width="390" height="96"/>
@@ -111,6 +112,8 @@
         </scene>
     </scenes>
     <resources>
+        <image name="message" catalog="system" width="128" height="116"/>
+        <image name="person" catalog="system" width="128" height="121"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
