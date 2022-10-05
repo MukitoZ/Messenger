@@ -31,7 +31,7 @@ final class RegisterViewController: UIViewController {
     
     private let firstNameField : UITextField = {
         let field = UITextField()
-        field.autocapitalizationType = .none
+        field.autocapitalizationType = .sentences
         field.autocorrectionType = .no
         field.returnKeyType = .continue
         field.layer.cornerRadius = 12
@@ -46,7 +46,7 @@ final class RegisterViewController: UIViewController {
     
     private let lastNameField : UITextField = {
         let field = UITextField()
-        field.autocapitalizationType = .none
+        field.autocapitalizationType = .sentences
         field.autocorrectionType = .no
         field.returnKeyType = .continue
         field.layer.cornerRadius = 12
@@ -193,6 +193,7 @@ final class RegisterViewController: UIViewController {
                 authDataResult, error in
                 guard authDataResult != nil, error == nil else{
                     print("Error creating user")
+                    print(error?.localizedDescription)
                     return
                 }
                 UserDefaults.standard.setValue(email, forKey: "email")
@@ -212,7 +213,7 @@ final class RegisterViewController: UIViewController {
                             result in
                             switch result{
                             case .success(let downloadURL):
-                                UserDefaults.standard.set(downloadURL, forKey: "profile_picture_url")
+                                UserDefaults.standard.setValue(downloadURL, forKey: "profile_picture_url")
                                 print(downloadURL)
                             case.failure(let error):print("storage manager error \(error)")
                             }

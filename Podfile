@@ -13,6 +13,7 @@ target 'Messenger' do
 	pod 'FirebaseDatabase'
 	pod 'FirebaseStorage'
 	pod 'FirebaseCrashlytics'
+	pod 'FirebaseMessaging'
 
 	#Facebook
 	pod 'FacebookCore'
